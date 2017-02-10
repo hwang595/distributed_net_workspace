@@ -29,10 +29,10 @@ cfg = Cfg({
 
     # Cluster topology
     "n_masters" : 1,                      # Should always be 1
-    "n_workers" : 16,
+    "n_workers" : 1,
     "n_ps" : 1,
     "n_evaluators" : 1,                   # Continually validates the model on the validation data
-    "num_replicas_to_aggregate" : "17",
+    "num_replicas_to_aggregate" : "2",
 
     "method" : "spot",
 
@@ -41,14 +41,15 @@ cfg = Cfg({
     "availability_zone" : "us-west-2b",
 
     # Machine type - instance type configuration.
-    "master_type" : "m3.large",
-    "worker_type" : "m3.large",
-    "ps_type" : "m3.large",
-    "evaluator_type" : "m3.large",
-    "image_id": "ami-2306ba43",
+    "master_type" : "m3.medium",
+    "worker_type" : "m3.medium",
+    "ps_type" : "m3.medium",
+    "evaluator_type" : "m3.medium",
+#    "image_id": "ami-2306ba43",
+    "image_id": "ami-73b23613",
 
     # Launch specifications
-    "spot_price" : "0.07",                 # Has to be a string
+    "spot_price" : "0.03",                 # Has to be a string
 
     # SSH configuration
     "ssh_username" : "ubuntu",            # For sshing. E.G: ssh ssh_username@hostname
@@ -72,22 +73,22 @@ cfg = Cfg({
     # Master pre commands are run only by the master
     "master_pre_commands" :
     [
-        "cd DistributedMNIST",
+        "cd distributed_net_workspace/DistributedLeNet",
         "git fetch && git reset --hard origin/master",
     ],
 
     # Pre commands are run on every machine before the actual training.
     "pre_commands" :
     [
-        "cd DistributedMNIST",
+        "cd distributed_net_workspace/DistributedLeNet",
         "git fetch && git reset --hard origin/master",
     ],
 
     # Model configuration
-    "batch_size" : "8",
-    "max_steps" : "2000",
+    "batch_size" : "128",
+    "max_steps" : "5000",
     "initial_learning_rate" : ".001",
-    "learning_rate_decay_factor" : ".98",
+    "learning_rate_decay_factor" : ".95",
     "num_epochs_per_decay" : "1.0",
 
     # Train command specifies how the ps/workers execute tensorflow.
